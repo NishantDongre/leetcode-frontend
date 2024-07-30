@@ -1,4 +1,13 @@
+import "ace-builds/src-noconflict/ace";
+import "ace-builds/src-noconflict/ext-language_tools";
+import "ace-builds/src-noconflict/mode-c_cpp";
+import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/mode-python";
+import "ace-builds/src-noconflict/theme-monokai";
+
 import { DragEvent, useState } from "react";
+import AceEditor from "react-ace";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
@@ -97,7 +106,23 @@ function Description({ descriptionText }: { descriptionText: string }) {
             <div
                 className="rightPanel h-full overflow-auto"
                 style={{ width: `${100 - leftWidth}%` }}
-            ></div>
+            >
+                <div className="editorContainer">
+                    <AceEditor
+                        mode="javascript"
+                        theme="monokai"
+                        name="codeEditor"
+                        className="editor"
+                        style={{ width: "100%" }}
+                        setOptions={{
+                            enableBasicAutocompletion: true,
+                            enableLiveAutocompletion: true,
+                            showLineNumbers: true,
+                            fontSize: 16,
+                        }}
+                    />
+                </div>
+            </div>
         </div>
     );
 }
