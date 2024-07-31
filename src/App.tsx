@@ -1,6 +1,7 @@
 import "./App.css";
 
 import Navbar from "./components/Navbar";
+import SideBar from "./components/Sidebar";
 import ProblemDescription from "./pages/Description/ProblemDescription";
 
 function App() {
@@ -62,6 +63,7 @@ Return the head of the merged linked list.
     return (
         <div className="h-[100vh]">
             <Navbar />
+            <SideBar />
             <ProblemDescription descriptionText={markdownText} />
         </div>
     );
