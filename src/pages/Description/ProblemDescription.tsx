@@ -6,6 +6,7 @@ import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-monokai";
 
+import DOMPurify from "dompurify";
 import { DragEvent, useState } from "react";
 import AceEditor from "react-ace";
 import ReactMarkdown from "react-markdown";
@@ -13,8 +14,7 @@ import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 
 function Description({ descriptionText }: { descriptionText: string }) {
-    const sanitizedMarkdown = descriptionText;
-
+    const sanitizedMarkdown = DOMPurify.sanitize(descriptionText);
     const [activeTab, setActiveTab] = useState("statement");
     const [leftWidth, setLeftWidth] = useState(50);
     const [isDragging, setIsDragging] = useState(false);
