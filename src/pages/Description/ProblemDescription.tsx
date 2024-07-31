@@ -50,7 +50,7 @@ function Description({ descriptionText }: { descriptionText: string }) {
 
     return (
         <div
-            className="flex w-screen h-screen"
+            className="flex w-screen h-[calc(100vh-68px)]"
             onMouseMove={onDrag}
             onMouseUp={stopDragging}
         >
@@ -93,7 +93,7 @@ function Description({ descriptionText }: { descriptionText: string }) {
             </div>
 
             <div
-                className="cursor-col-resize w-[5px] bg-slate-200 h-full flex flex-col justify-center"
+                className="cursor-col-resize w-[4px] bg-slate-200 h-full flex flex-col justify-center"
                 onMouseDown={startDragging}
             >
                 <div className="text-black font-extrabold m-0 p-0 flex flex-col items-center leading-[0.8]">
