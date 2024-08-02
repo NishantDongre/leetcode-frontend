@@ -8,7 +8,7 @@ import ProblemDescription from "./pages/Description/ProblemDescription";
 function App() {
     const markdownText = SampleProblem1.problemStatement;
     return (
-        <div className="h-[100vh]">
+        <div className="h-[100vh] overflow-hidden">
             <Navbar />
             <SideBar />
             <ProblemDescription descriptionText={markdownText} />

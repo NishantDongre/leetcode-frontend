@@ -47,6 +47,8 @@ function Description({ descriptionText }: { descriptionText: string }) {
     const [language, setLanguage] = useState("c_cpp");
     const [theme, setTheme] = useState("twilight");
     const [code, setCode] = useState("");
+    const [testCaseTab, setTestCaseTab] = useState("input");
+    const [customTestCaseInput, setCustomTestCaseInput] = useState("");
 
     const handleCopyToClipboard = () => {
         navigator.clipboard
@@ -57,6 +59,14 @@ function Description({ descriptionText }: { descriptionText: string }) {
             .catch((err) => {
                 console.error("Failed to copy: ", err);
             });
+    };
+
+    const isInputTabActive = (tabName: string) => {
+        if (testCaseTab === tabName) {
+            return "tab tab-active";
+        } else {
+            return "tab";
+        }
     };
 
     const startDragging = (e: DragEvent<HTMLDivElement>) => {
@@ -95,7 +105,7 @@ function Description({ descriptionText }: { descriptionText: string }) {
             onMouseUp={stopDragging}
         >
             <div
-                className="leftPanel h-full overflow-auto"
+                className="leftPanel h-full overflow-auto relative"
                 style={{ width: `${leftWidth}%` }}
             >
                 <div role="tablist" className="tabs tabs-bordered">
@@ -130,6 +140,53 @@ function Description({ descriptionText }: { descriptionText: string }) {
                         {sanitizedMarkdown}
                     </ReactMarkdown>
                 </div>
+
+                <div className="bottom-0 sticky collapse rounded-none bg-consoleStripColor">
+                    <input
+                        id="customTestCaseConsole"
+                        type="checkbox"
+                        className="peer"
+                    />
+                    <div className="collapse-title h-2 text-customInputTextColor peer-checked:bg-consoleStripColor peer-checked:text-customInputTextColor">
+                        Console
+                    </div>
+                    <div className="collapse-content text-customInputTextColor peer-checked:bg-runCodeSubmitStrip peer-checked:text-customInputTextColor">
+                        <div
+                            role="tablist"
+                            className="tabs tabs-bordered w-3/5 mb-4"
+                        >
+                            <a
+                                onClick={() => setTestCaseTab("input")}
+                                role="tab"
+                                className={isInputTabActive("input")}
+                            >
+                                Custom Input
+                            </a>
+                            <a
+                                onClick={() => setTestCaseTab("output")}
+                                role="tab"
+                                className={isInputTabActive("output")}
+                            >
+                                Compilation Results
+                            </a>
+                        </div>
+                        <div className="h-28">
+                            {testCaseTab === "input" ? (
+                                <textarea
+                                    rows={4}
+                                    cols={70}
+                                    className="bg-runCodeSubmitStrip border-slate-700 border-2 text-white rounded-md resize-none"
+                                    onChange={(e) =>
+                                        setCustomTestCaseInput(e.target.value)
+                                    }
+                                />
+                            ) : (
+                                // <div className="w-12 h-8"></div>
+                                <></>
+                            )}
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div
@@ -144,10 +201,10 @@ function Description({ descriptionText }: { descriptionText: string }) {
             </div>
 
             <div
-                className="rightPanel h-full overflow-auto"
+                className="rightPanel h-full overflow-auto flex flex-col"
                 style={{ width: `${100 - leftWidth}%` }}
             >
-                <div className="flex gap-x-1.5 justify-between items-center px-6 py-2">
+                <div className="flex gap-x-1.5 justify-between items-center px-6 py-2 basis-[5%]">
                     <div className="flex gap-3">
                         <div>
                             <select
@@ -198,22 +255,40 @@ function Description({ descriptionText }: { descriptionText: string }) {
                     </div>
                 </div>
 
-                <div className="editorContainer">
-                    <AceEditor
-                        mode={language}
-                        theme={theme}
-                        name="codeEditor"
-                        value={code}
-                        onChange={(e: string) => setCode(e)}
-                        className="editor"
-                        style={{ width: "100%" }}
-                        setOptions={{
-                            enableBasicAutocompletion: true,
-                            enableLiveAutocompletion: true,
-                            showLineNumbers: true,
-                            fontSize: 16,
-                        }}
-                    />
+                <div className="flex flex-col editor-console grow-[1]">
+                    <div className="editorContainer grow-[1]">
+                        <AceEditor
+                            mode={language}
+                            theme={theme}
+                            name="codeEditor"
+                            value={code}
+                            onChange={(e: string) => setCode(e)}
+                            className="editor"
+                            style={{ width: "100%" }}
+                            setOptions={{
+                                enableBasicAutocompletion: true,
+                                enableLiveAutocompletion: true,
+                                showLineNumbers: true,
+                                fontSize: 16,
+                            }}
+                            height="100%"
+                        />
+                    </div>
+                    <div>
+                        <div className="flex gap-x-1.5 items-center justify-end px-2 py-2 bg-runCodeSubmitStrip">
+                            <label htmlFor="customTestCaseConsole">
+                                <div className="text-xs cursor-pointer underline text-customInputTextColor">
+                                    Custom Input
+                                </div>
+                            </label>
+                            <button className="btn bg-runCodeBtnColor btn-sm">
+                                Run Code
+                            </button>
+                            <button className="btn bg-submitBtnColor btn-sm">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
