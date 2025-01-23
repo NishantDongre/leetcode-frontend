@@ -482,12 +482,14 @@ function Description() {
               <button
                 onClick={handleRunCode}
                 className="btn bg-runCodeBtnColor btn-sm"
+                disabled={isCodeSubmissionLoading}
               >
                 Run Code
               </button>
               <button
                 onClick={handleSubmission}
                 className="btn bg-submitBtnColor btn-sm"
+                disabled={isCodeSubmissionLoading}
               >
                 Submit
               </button>
