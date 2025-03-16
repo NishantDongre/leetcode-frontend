@@ -18,7 +18,13 @@ function ProblemList() {
         const response = await axios.get<AllProblemsApiResponse>(
           problemListURL
         );
-        setAllProblems(response.data.data);
+        // Sort the problems by topic
+        const sortedProblems = response.data.data.sort((a, b) => {
+          if (a.topic < b.topic) return -1;
+          if (a.topic > b.topic) return 1;
+          return 0;
+        });
+        setAllProblems(sortedProblems);
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred");
         console.log(error);

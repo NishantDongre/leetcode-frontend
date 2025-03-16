@@ -53,7 +53,7 @@ function SideBar() {
               className="bg-gray-900 rounded-3xl m-4 p-1 text-xs"
               key={problem._id}
             >
-              <Link to={`problems/${problem._id}`}>{problem.title}</Link>
+              <Link to={`problem/${problem._id}`}>{problem.title}</Link>
             </li>
           ))}
         </ul>
